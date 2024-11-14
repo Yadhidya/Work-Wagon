@@ -1,4 +1,4 @@
-#Work Wagon
+# Work Wagon
 Work Wagon is a comprehensive web-based platform designed to connect job seekers ("Workers") and job providers ("Shops") seamlessly. The platform enhances workforce management with features such as efficient job matching, secure data handling, and transparent status tracking.
 
 Key Features:
