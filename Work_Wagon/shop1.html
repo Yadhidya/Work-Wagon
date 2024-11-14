@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="styless.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+
+   </head>
+   <body>
+      <div class="content">
+         <div class="text">
+            Registration Form
+         </div>
+         <div class="text">
+            Shop
+         </div>
+         <form action="shop_insert.php" method="post" enctype="multipart/form-data">
+            <div class="field">
+               <input type="text" name="name" required maxlength="70">
+               <span class="fas fa-shopping-bag"></span>
+               <label> Shop Name</label>
+            </div><br>
+            <div class="field">
+                <input type="text"  name="job_name"  required maxlength="50">
+                <span class="fas fa-user-tie"></span>
+                <label>Job Name</label>
+             </div><br>
+             <div class="field">
+               <input type="text"  name="shopkeeper_name" required maxlength="70">
+               <span class="fas fa-user"></span>
+               <label>ShopKeeper Name</label>
+            </div><br>
+             <div class="field">
+                <input type="text"  name="mobile_number"  id="mobileNumber" required>
+                <span class="fas fa-phone"></span>
+                <label>Mobile Number</label>
+             </div><br>
+
+             <div class="field">
+                <input type="text" id="email"  name="email" required>
+                <span class="fas fa-envelope"></span>
+                <label>Email Id</label>
+             </div><br>
+             <div class="field">
+               <select id="cityFilter"  name="avalable" >
+                  <option disabled selected>0</option>
+
+                   <option value="1">1</option>
+                   <option value="2">2</option>
+                   <option value="3">3</option>
+                   <option value="4">4</option>
+                   <option value="5">5</option>
+                   <option value="6">6</option>
+                   <option value="7">7</option>
+                   <option value="8">8</option>
+                   <option value="9">9</option>
+                   <option value="10">10</option>
+                   <option value="11">11</option>
+                   <option value="12">12</option>
+                   <option value="13">13</option>
+                   <option value="14">14</option>
+                   <option value="15">15</option>
+               </select> 
+               
+               <span class="fas fa-check-circle"></span>
+               <label>Available</label>
+            </div><br>
+            <div class="field input-with-dropdown">
+                <select id="cityFilter"  name="category"> 
+                   <option disabled selected>Category</option>
+                   <option value="Grocery Shop">Grocery Shop</option>
+                   <option value="Restaurant">Restaurant</option>
+                   <option value="Hotel">Hotel</option>
+                   <option value="Shopping Mall">Shopping Mall</option>
+                   <option value="Clothing Outlet">Clothing Outlet</option>
+                   <option value="Pan Shop">Pan Shop</option>
+                   <option value="Saloon Shop">Saloon Shop</option>
+                   <option value="Mobile Cell Points">Mobile Cell Points</option>
+                   <option value="Mechanic shop">Mechanic shop</option>
+                   <option value="Other">Other</option>
+                </select>
+                <span class="fas fa-folder"></span>
+             </div><br>
+             
+             <div class="field">
+                <input type="number"  name="age_required" required min="18">
+                <span class="fas fa-hourglass"></span>
+                <label>Age required</label>
+             </div><br>
+             <div class="time-input-label">Time In</div>
+             <div class="time-input">
+                <input type="time" id="timeIn" name="time_in" required value="08:00">
+                <select id="timeInAmPm" name="time_in_ampm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+                
+             </div><br>
+             
+             <div class="time-input-label">Time Out</div>
+             <div class="time-input">
+                <input type="time" id="timeOut" name="time_out" required value="05:00">
+                <select id="timeOutAmPm" name="time_out_ampm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+                
+             </div><br>
+             
+             
+           
+           
+                       
+             <div class="field">
+                <input type="number"  name="salary" required>
+                <span class="fas fa-money-bill"></span>
+                <label>Salary</label>
+             </div><br>
+             <div class="field">
+               <textarea required  name="requirements" ></textarea>
+               <span class="fas fa-list-ul"></span>
+               <label>Requirements</label>
+           </div><br>
+           <div class="field">
+               <textarea type="text"  name="address"  required></textarea>
+               <span class="fas fa-map-marker"></span>
+               <label>Address</label>
+           </div><br>
+           <div class="field">
+            <input type="file" name="image" id="image" accept="image/*">
+
+            <span class="fas fa-camera"></span>
+            <label>Upload Photo</label>
+         </div><br>
+             <div class="field input-with-dropdown">
+               <select id="cityFilter"  name="city" >
+                  <option disabled selected>City</option>
+                   <option value="kakinada">Kakinada</option>
+                   <option value="Nidadavole">Nidadavole</option>
+                   <!-- Add more city options here -->
+               </select>
+               
+               <span class="fas fa-city"></span>
+           </div><br>
+           
+           <div class="field">
+            <input type="password"  name="password"  required>
+            <span class="fas fa-lock"></span>
+            <label>Password</label>
+         </div><br>
+         
+
+            
+            
+
+            <button type="submit">REGISTER</button>
+           
+         </form>
+      </div>
+      <script src="shop.js"></script>
+   </body>
+</html>

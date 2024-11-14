@@ -1,0 +1,44 @@
+/* styles.css */
+form {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+input[type="hidden"] {
+    display: none;
+}
+
+button {
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button[name="action"][value="accept"] {
+    background-color: #4caf50;
+    color: white;
+}
+
+button[name="action"][value="reject"] {
+    background-color: #f44336;
+    color: white;
+    margin-left: 10px;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    form {
+        max-width: 100%;
+    }
+}

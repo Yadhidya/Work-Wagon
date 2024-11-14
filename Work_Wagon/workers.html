@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="styless.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+   </head>
+   <body>
+      <div class="content">
+         <div class="text">
+            Registration Form
+         </div>
+         <div class="text">
+            Workers
+         </div><form action="worker_insert.php" method="post" enctype="multipart/form-data">
+
+            <div class="field">
+               <input type="text"  name="name" required maxlength="70">
+               <span class="fas fa-user"></span>
+               <label>Name</label>
+            </div><br>
+            <div class="field">
+               <input type="text"  name="mobile_number" id="mobileNumber" required>
+               <span class="fas fa-phone"></span>
+               <label>Mobile Number</label>
+            </div><br>
+            <div class="field">
+               <input type="text"  name="email" id="email" required>
+               <span class="fas fa-envelope"></span>
+               <label>Email Id</label>
+            </div><br>
+            <div class="field">
+               <input type="number" name="salary" required>
+               <span class="fas fa-money-bill"></span>
+               <label>Expected Salary</label>
+            </div><br>
+            <div class="field input-with-dropdown">
+               <select id="cityFilter"  name="available">
+                  <option disabled selected>Available</option>
+                   <option value="yes">YES</option>
+                   <option value="no">NO</option>
+                   <!-- Add more city options here -->
+               </select>
+               
+               <span class="fas fa-check-circle"></span>
+           </div><br>
+             
+             
+            <div class="field">
+                <input type="text" required  name="work_known">
+                
+                <span class="fas fa-user"></span>
+                <label>Work known</label>
+             </div><br>
+             <div class="field">
+               <input type="number"  name="age" required min="18">
+               <span class="fas fa-hourglass"></span>
+               <label>Age </label>
+            </div><br>
+            <div class="field input-with-dropdown">
+               <select id="cityFilter"  name="city">
+                  <option disabled selected>City</option>
+                   <option value="kakinada">Kakinada</option>
+                   <option value="Nidadavole">Nidadavole</option>
+                   <!-- Add more city options here -->
+               </select>
+               
+               <span class="fas fa-city"></span>
+           </div><br>
+           <div class="field">
+            <input type="file" name="image" id="image" accept="image/*">
+
+            <span class="fas fa-camera"></span>
+            <label>Upload Photo</label>
+         </div><br>
+           <div class="field">
+            <input type="password"  name="password"  required>
+            <span class="fas fa-lock"></span>
+            <label>Password</label>
+         </div><br>
+         
+            
+
+            <button type="submit">REGISTER</button>
+            
+         </form>
+      </div>
+      <script src="shop.js"></script>
+   </body>
+</html>

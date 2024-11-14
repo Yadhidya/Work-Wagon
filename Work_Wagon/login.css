@@ -1,0 +1,18 @@
+.error-message-container {
+    background-color: #f44336; /* Red background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around the message */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center-align text */
+    margin-bottom: 20px; /* Margin at the bottom for spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle lift */
+}
+.duplicate-message-container {
+    background-color: #4caf50; /* Green background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding around the message */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center-align text */
+    margin-bottom: 20px; /* Margin at the bottom for spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle lift */
+}
