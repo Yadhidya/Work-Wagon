@@ -28,7 +28,6 @@
 |------------------------------------|--------------------------------------------------|
 | ![Shop Signup](screenshots/shop_signup.png) | ![Job Listing](screenshots/job_listing.png) |
 
-| ![Request Handling](screenshots/request_handling.png) | ![Dashboard](screenshots/dashboard.png) |
 |--------------------------------------------------------|------------------------------------------|
 
 ---
