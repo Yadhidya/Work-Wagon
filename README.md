@@ -1,9 +1,60 @@
-# Work Wagon
-Work Wagon is a comprehensive web-based platform designed to connect job seekers ("Workers") and job providers ("Shops") seamlessly. The platform enhances workforce management with features such as efficient job matching, secure data handling, and transparent status tracking.
+# 🚚 Work Wagon
 
-Key Features:
-Home Page (home.php): The starting point for users, providing a welcoming overview and navigation to essential sections of the platform.
-User Registration and Logins: Separate account management for Workers and Shops, ensuring tailored experiences.
-Job Matching and Requests: Easy-to-use interfaces for initiating and managing job requests.
-Security and Accessibility: Robust measures to protect user data and ensure inclusivity for all users.
-Explore the project to see how Work Wagon leverages HTML, CSS, and JavaScript to create a user-friendly and reliable job connection platform.
+**Work Wagon** is a comprehensive web-based platform designed to seamlessly connect job seekers (*Workers*) with job providers (*Shops*). It streamlines local workforce management with efficient job matching, secure data handling, and real-time status tracking.
+
+---
+
+## 🌟 Key Features
+
+- **🏠 Home Page**  
+  A welcoming entry point with intuitive navigation to all major sections.
+
+- **🔐 User Registration & Login**  
+  Separate, role-based authentication systems for Workers and Shops.
+
+- **💼 Job Matching & Requests**  
+  Simple and clean interfaces to initiate, request, and manage job postings and applications.
+
+- **🛡️ Security & Accessibility**  
+  Ensures user data protection and inclusive access for all users.
+
+---
+
+## 🖥️ Screenshots
+
+> 📸 Replace these with your actual image URLs (uploaded to GitHub or elsewhere)
+
+| ![Home Page](screenshots/home.png) | ![Worker Signup](screenshots/worker_signup.png) |
+|------------------------------------|--------------------------------------------------|
+| ![Shop Signup](screenshots/shop_signup.png) | ![Job Listing](screenshots/job_listing.png) |
+
+| ![Request Handling](screenshots/request_handling.png) | ![Dashboard](screenshots/dashboard.png) |
+|--------------------------------------------------------|------------------------------------------|
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** HTML, CSS, JavaScript  
+- **Backend:** PHP (for user auth and handling requests)  
+- **Database:** MySQL (for user and job data management)
+
+---
+
+## 🚀 How to Run Locally
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/yourusername/work-wagon.git
+
+# 2. Move into the project directory
+cd work-wagon
+
+# 3. Place it in your XAMPP/WAMP/LAMP htdocs folder
+
+# 4. Start Apache & MySQL from your local server (e.g., XAMPP Control Panel)
+
+# 5. Import the SQL file into phpMyAdmin
+
+# 6. Open your browser and go to:
+http://localhost/work-wagon/home.php
