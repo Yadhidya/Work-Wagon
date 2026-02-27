@@ -6,26 +6,45 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name="shops")
+@Table(name = "shops",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email"),
+                @UniqueConstraint(columnNames = "mobile")
+        })
 public class Shop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer id;
+    @NotBlank(message = "Shop keeper name is required")
     private String shop_keeper_name;
+
+    @NotBlank(message = "Job name is required")
     private String job_name;
+
+    @NotBlank(message = "Shop name is required")
     private String shop_name;
+
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotNull(message = "Mobile number is required")
     private BigInteger mobile;
+
+    @Min(value = 0, message = "Available must be 0 or greater")
     private int available;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "Password is required")
+    private String password;
 
     private String imageName;
     private String imageType;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
     @Lob
     @Basic(fetch=FetchType.LAZY)
     private byte[] imageData;

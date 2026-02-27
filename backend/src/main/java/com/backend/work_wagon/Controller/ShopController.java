@@ -3,6 +3,7 @@ package com.backend.work_wagon.Controller;
 import jakarta.servlet.http.HttpSession;
 import com.backend.work_wagon.Model.Shop;
 import com.backend.work_wagon.Service.Shop_Service;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,18 +28,18 @@ public class ShopController {
     }
 
     @PostMapping("/shop")
-    public ResponseEntity<?> addShop(@RequestPart Shop shop, @RequestPart MultipartFile imageFile)
-    {
-        try
-        {
-            Shop s=service.addShop(shop,imageFile);
-            return new ResponseEntity<>(s, HttpStatus.CREATED);
-        }
-        catch (Exception e)
-        {
-            return  new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> addShop(
+            @Valid @RequestPart Shop shop,
+            @RequestPart MultipartFile imageFile) {
 
+        try {
+            Shop s = service.addShop(shop, imageFile);
+            return new ResponseEntity<>(s, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Server error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/shop/login")
