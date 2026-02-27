@@ -46,9 +46,8 @@ public class Shop {
     private String imageType;
 
     @Lob
-    @Basic(fetch=FetchType.LAZY)
+    @Basic(fetch = FetchType.LAZY)
     private byte[] imageData;
-
 
     public Integer getId() {
         return id;

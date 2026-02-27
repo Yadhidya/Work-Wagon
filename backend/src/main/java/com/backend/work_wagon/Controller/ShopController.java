@@ -44,8 +44,6 @@ public class ShopController {
 
     @PostMapping("/shop/login")
     public ResponseEntity<?> login(@RequestBody Shop loginRequest, HttpSession session) {
-
-
         try {
             Shop shop = service.login(loginRequest.getEmail(), loginRequest.getPassword());
             session.setAttribute("shop", shop.getId());

@@ -1,5 +1,6 @@
 package com.backend.work_wagon.Repository;
 
+import com.backend.work_wagon.Model.Worker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.backend.work_wagon.Model.Shop;
 import org.springframework.stereotype.Repository;

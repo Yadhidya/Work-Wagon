@@ -42,8 +42,6 @@ public class WorkerController {
 
     @PostMapping("/worker/login")
     public ResponseEntity<?> login(@RequestBody Worker loginRequest, HttpSession session) {
-        System.out.println(loginRequest.getPassword());
-        System.out.println(loginRequest.getEmail());
         try {
             Worker worker = service.login(loginRequest.getEmail(), loginRequest.getPassword());
             session.setAttribute("worker", worker.getId());

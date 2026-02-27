@@ -30,9 +30,6 @@ public class Worker_Service {
         Worker worker = repo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email"));
 
-        System.out.println(worker.getEmail());
-        System.out.println(worker.getPassword());
-
         if (!worker.getPassword().equals(password)) {
             throw new RuntimeException("Invalid password");
         }

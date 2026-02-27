@@ -1,5 +1,6 @@
 package com.backend.work_wagon.Service;
 
+import com.backend.work_wagon.Model.Worker;
 import com.backend.work_wagon.Repository.Shop_Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +18,6 @@ public class Shop_Service {
     Shop_Repo repo;
 
 
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public List<Shop> getShops() {
         return  repo.findAll();
@@ -37,7 +37,6 @@ public class Shop_Service {
             throw new RuntimeException("Image is required");
         }
 
-        shop.setPassword(encoder.encode(shop.getPassword()));
 
         shop.setImageName(imageFile.getOriginalFilename());
         shop.setImageType(imageFile.getContentType());
@@ -47,17 +46,20 @@ public class Shop_Service {
     }
 
     public Shop login(String email, String password) {
+       /* Shop shop = repo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email"));
 
-        Shop shop = repo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
-
-        if (!encoder.matches(password, shop.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        if (!shop.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid password");
+        }*/
+        List<Shop> shops=repo.findAll();
+        for(Shop shop:shops)
+        {
+            if(shop.getEmail().equals(email) && shop.getPassword().equals(password))
+                return shop;
         }
-
-        return shop;
+        return null;
     }
-
     public Shop getById(Integer id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Shop not found"));
