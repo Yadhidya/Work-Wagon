@@ -11,73 +11,108 @@ const Header = () => {
   const loginRef = useRef(null);
   const registerRef = useRef(null);
   const userRef = useRef(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const shop = localStorage.getItem("shop");
     const worker = localStorage.getItem("worker");
 
     if (shop) {
-      setUser({ type: "shop" });
+      const parsed = JSON.parse(shop);
+      setUser({
+        type: "shop",
+        name: parsed.shop_name
+      });
     }
 
     if (worker) {
-      setUser({ type: "worker" });
+      const parsed = JSON.parse(worker);
+      setUser({
+        type: "worker",
+        name: parsed.worker_name
+      });
     }
+
   }, []);
 
   useEffect(() => {
+
     const handleClickOutside = (event) => {
+
       if (loginRef.current && !loginRef.current.contains(event.target)) {
         setShowLogin(false);
       }
+
       if (registerRef.current && !registerRef.current.contains(event.target)) {
         setShowRegister(false);
       }
+
       if (userRef.current && !userRef.current.contains(event.target)) {
         setShowUserMenu(false);
       }
+
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
   }, []);
 
   const handleLogout = async () => {
 
-    if (user?.type === "shop") {
-      await fetch("http://localhost:8080/shop/logout", {
-        method: "POST",
-        credentials: "include"
-      });
+    try {
+
+      if (user?.type === "shop") {
+        await fetch("http://localhost:8080/shop/logout", {
+          method: "POST",
+          credentials: "include"
+        });
+      }
+
+      if (user?.type === "worker") {
+        await fetch("http://localhost:8080/worker/logout", {
+          method: "POST",
+          credentials: "include"
+        });
+      }
+
+      localStorage.removeItem("shop");
+      localStorage.removeItem("worker");
+
+      setUser(null);
+
+      navigate("/");
+
+    } catch (error) {
+      console.error(error);
     }
 
-    if (user?.type === "worker") {
-      await fetch("http://localhost:8080/worker/logout", {
-        method: "POST",
-        credentials: "include"
-      });
-    }
-
-    localStorage.removeItem("shop");
-    localStorage.removeItem("worker");
-    setUser(null);
-    navigate("/");
   };
 
-  return (
-    <div className="h-16 w-full bg-white border-b border-gray-200 flex justify-between items-center px-8 shadow-sm relative">
+  const avatarLetter = user?.name ? user.name.charAt(0).toUpperCase() : "U";
 
-      <Link to="/" className="text-2xl font-bold text-indigo-600">
+  return (
+    <header className="h-16 w-full bg-white border-b border-gray-200 flex justify-between items-center px-8 shadow-sm sticky top-0 z-50">
+
+      <Link
+        to="/"
+        className="text-2xl font-bold text-indigo-600 hover:text-indigo-700 transition"
+      >
         Work Wagon
       </Link>
 
-      <div className="flex items-center gap-8 relative text-gray-700 font-medium">
+      <div className="flex items-center gap-8 text-gray-700 font-medium">
 
-        <Link to="/about" className="cursor-pointer hover:text-indigo-600 transition">
-          About Us
+        <Link
+          to="/about"
+          className="hover:text-indigo-600 transition"
+        >
+          About
         </Link>
 
         {!user && (
@@ -94,13 +129,22 @@ const Header = () => {
               </button>
 
               {showRegister && (
-                <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-lg flex flex-col p-3 gap-2 border border-gray-200">
-                  <Link to="/shop_register" className="hover:bg-indigo-50 p-2 rounded-lg">
+                <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-xl flex flex-col p-2 border border-gray-200 animate-fadeIn">
+
+                  <Link
+                    to="/shop_register"
+                    className="hover:bg-indigo-50 px-3 py-2 rounded-lg"
+                  >
                     Shopkeeper
                   </Link>
-                  <Link to="/worker_register" className="hover:bg-indigo-50 p-2 rounded-lg">
+
+                  <Link
+                    to="/worker_register"
+                    className="hover:bg-indigo-50 px-3 py-2 rounded-lg"
+                  >
                     Worker
                   </Link>
+
                 </div>
               )}
             </div>
@@ -117,13 +161,22 @@ const Header = () => {
               </button>
 
               {showLogin && (
-                <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-lg flex flex-col p-3 gap-2 border border-gray-200">
-                  <Link to="/shop_login" className="hover:bg-indigo-50 p-2 rounded-lg">
+                <div className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-xl flex flex-col p-2 border border-gray-200 animate-fadeIn">
+
+                  <Link
+                    to="/shop_login"
+                    className="hover:bg-indigo-50 px-3 py-2 rounded-lg"
+                  >
                     Shopkeeper
                   </Link>
-                  <Link to="/worker_login" className="hover:bg-indigo-50 p-2 rounded-lg">
+
+                  <Link
+                    to="/worker_login"
+                    className="hover:bg-indigo-50 px-3 py-2 rounded-lg"
+                  >
                     Worker
                   </Link>
+
                 </div>
               )}
             </div>
@@ -132,35 +185,39 @@ const Header = () => {
 
         {user && (
           <div className="relative" ref={userRef}>
+
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-semibold hover:bg-indigo-600 transition"
+              className="w-10 h-10 rounded-full bg-indigo-500 text-white flex items-center justify-center font-semibold hover:bg-indigo-600 transition shadow-md"
             >
-              U
+              {avatarLetter}
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg flex flex-col p-3 gap-2 border border-gray-200">
+              <div className="absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-xl flex flex-col p-2 border border-gray-200 animate-fadeIn">
+
                 <Link
                   to="/profile"
-                  className="hover:bg-indigo-50 p-2 rounded-lg"
+                  className="hover:bg-indigo-50 px-3 py-2 rounded-lg"
                 >
                   Profile
                 </Link>
 
                 <button
                   onClick={handleLogout}
-                  className="text-left hover:bg-red-50 text-red-500 p-2 rounded-lg"
+                  className="text-left hover:bg-red-50 text-red-500 px-3 py-2 rounded-lg"
                 >
                   Logout
                 </button>
+
               </div>
             )}
+
           </div>
         )}
 
       </div>
-    </div>
+    </header>
   );
 };
 
