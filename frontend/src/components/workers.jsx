@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 const Workers = () => {
+
+  
   const [workers, setWorkers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedWorker, setSelectedWorker] = useState(null);
@@ -18,6 +20,34 @@ const Workers = () => {
     const shop = localStorage.getItem("shop");
     if (shop) setIsShopLoggedIn(true);
   }, []);
+     
+
+     const sendRequest = async (workerId) => {
+  try {
+    const res = await fetch("http://localhost:8080/requests/send", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        receiverId: workerId,
+        receiverRole: "WORKER"
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data);
+
+    alert("Request sent successfully");
+
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+   
 
   if (loading) {
     return <div className="text-center text-gray-500 text-lg mt-16">Loading workers...</div>;
@@ -102,7 +132,8 @@ const Workers = () => {
             </div>
 
             {isShopLoggedIn && selectedWorker.available === "Yes" && (
-              <button className="mt-6 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl transition">
+              <button  
+    onClick={() => sendRequest(selectedWorker.id)} className="mt-6 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl transition">
                 Request
               </button>
             )}

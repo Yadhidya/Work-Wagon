@@ -19,6 +19,31 @@ const Shops = () => {
     if (worker) setIsWorkerLoggedIn(true);
   }, []);
 
+  const sendRequest = async (shopId) => {
+  try {
+    const res = await fetch("http://localhost:8080/requests/send", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        receiverId: shopId,
+        receiverRole: "SHOP"
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data);
+
+    alert("Request sent successfully");
+
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
   if (loading) {
     return <div className="text-center text-gray-500 text-lg mt-16">Loading shops...</div>;
   }
@@ -98,7 +123,8 @@ const Shops = () => {
             </div>
 
             {isWorkerLoggedIn && selectedShop.available > 0 && (
-              <button className="mt-6 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl transition">
+              <button 
+    onClick={() => sendRequest(selectedShop.id)} className="mt-6 w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-xl transition">
                 Request
               </button>
             )}
