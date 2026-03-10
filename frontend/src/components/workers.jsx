@@ -24,23 +24,25 @@ const Workers = () => {
 
      const sendRequest = async (workerId) => {
   try {
-    const res = await fetch("http://localhost:8080/requests/send", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        receiverId: workerId,
-        receiverRole: "WORKER"
-      })
-    });
+   const res = await fetch("http://localhost:8080/requests/send", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  credentials: "include",
+  body: JSON.stringify({
+    receiverId: selectedWorker.id
+  })
+});
 
-    const data = await res.json();
+if (!res.ok) {
+  const text = await res.text();
+  alert(text);
+  return;
+}
 
-    if (!res.ok) throw new Error(data);
-
-    alert("Request sent successfully");
+const data = await res.json();
+alert("Request sent successfully");
 
   } catch (err) {
     alert(err.message);

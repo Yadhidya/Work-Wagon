@@ -37,9 +37,19 @@ public class RequestService {
 
         Request request = new Request();
 
-        // SHOP sending request to WORKER
         if (shopId != null) {
-            System.out.println("Shop :"+shopId);
+            boolean alreadyExists =
+                    requestRepository.existsBySenderIdAndSenderRoleAndReceiverIdAndReceiverRoleAndStatus(
+                            shopId,
+                            UserRole.SHOP,
+                            dto.getReceiverId(),
+                            UserRole.WORKER,
+                            RequestStatus.PENDING
+                    );
+
+            if (alreadyExists) {
+                throw new RuntimeException("Request already sent");
+            }
             Shop senderShop = shopRepo.findById(shopId)
                     .orElseThrow(() -> new RuntimeException("Sender shop not found"));
 
@@ -54,7 +64,18 @@ public class RequestService {
 
         // WORKER sending request to SHOP
         if (workerId != null) {
-            System.out.println("Worker "+workerId);
+            boolean alreadyExists =
+                    requestRepository.existsBySenderIdAndSenderRoleAndReceiverIdAndReceiverRoleAndStatus(
+                            workerId,
+                            UserRole.WORKER,
+                            dto.getReceiverId(),
+                            UserRole.SHOP,
+                            RequestStatus.PENDING
+                    );
+
+            if (alreadyExists) {
+                throw new RuntimeException("Request already sent");
+            }
             Worker senderWorker = workerRepo.findById(workerId)
                     .orElseThrow(() -> new RuntimeException("Sender worker not found"));
 
