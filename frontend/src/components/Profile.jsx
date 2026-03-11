@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 const Profile = () => {
 
   const [data, setData] = useState(null);
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [acceptedRequests, setAcceptedRequests] = useState([]);
+  const [activeTab, setActiveTab] = useState("profile");
 
   useEffect(() => {
 
@@ -15,20 +18,50 @@ const Profile = () => {
     if (worker) url = "http://localhost:8080/worker/profile";
 
     if (url) {
-      fetch(url, {
-        credentials: "include"
-      })
-        .then(res => {
-          if (!res.ok) throw new Error("Unauthorized");
-          return res.json();
-        })
-        .then(data => setData(data))
-        .catch(() => {
-          alert("Please login again");
-        });
+      fetch(url, { credentials: "include" })
+        .then(res => res.json())
+        .then(data => setData(data));
     }
 
+    fetch("http://localhost:8080/requests/pending", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => setPendingRequests(data));
+
+    fetch("http://localhost:8080/requests/accepted", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => setAcceptedRequests(data));
+
   }, []);
+
+  const handleAccept = async (id) => {
+
+    const res = await fetch(`http://localhost:8080/requests/${id}/accept`, {
+      method: "PUT",
+      credentials: "include"
+    });
+
+    if (res.ok) {
+      alert("Request accepted");
+      window.location.reload();
+    }
+  };
+
+  const handleReject = async (id) => {
+
+    const res = await fetch(`http://localhost:8080/requests/${id}/reject`, {
+      method: "PUT",
+      credentials: "include"
+    });
+
+    if (res.ok) {
+      alert("Request rejected");
+      window.location.reload();
+    }
+  };
 
   if (!data) {
     return (
@@ -46,11 +79,10 @@ const Profile = () => {
   const isWorker = data.worker_name !== undefined;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
+    <div className="min-h-screen bg-gray-100 p-6">
 
-      <div className="bg-white rounded-3xl shadow-xl w-full max-w-2xl overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
 
-        {/* Profile Header */}
         <div className="bg-indigo-500 p-6 flex items-center gap-6">
 
           {imageSrc ? (
@@ -77,60 +109,118 @@ const Profile = () => {
 
         </div>
 
-        {/* Profile Body */}
-        <div className="p-8 space-y-4 text-gray-700">
+        {/* Tabs */}
 
-          {isShop && (
-            <>
-              <div className="grid grid-cols-2 gap-4">
+        <div className="flex justify-center gap-6 border-b py-4">
 
-                <p><span className="font-semibold">Shop Keeper</span><br />{data.shop_keeper_name}</p>
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={activeTab === "profile" ? "font-bold text-indigo-600" : ""}
+          >
+            Profile
+          </button>
 
-                <p><span className="font-semibold">Email</span><br />{data.email}</p>
+          <button
+            onClick={() => setActiveTab("pending")}
+            className={activeTab === "pending" ? "font-bold text-indigo-600" : ""}
+          >
+            Pending Requests
+          </button>
 
-                <p><span className="font-semibold">Mobile</span><br />{data.mobile}</p>
+          <button
+            onClick={() => setActiveTab("accepted")}
+            className={activeTab === "accepted" ? "font-bold text-indigo-600" : ""}
+          >
+            Accepted Requests
+          </button>
 
-                <p><span className="font-semibold">Job Role</span><br />{data.job_name}</p>
+        </div>
 
-                <p><span className="font-semibold">Vacancies</span><br />{data.available}</p>
+        <div className="p-8">
 
-              </div>
-            </>
+          {/* PROFILE TAB */}
+
+          {activeTab === "profile" && (
+            <div className="grid grid-cols-2 gap-4 text-gray-700">
+
+              <p><b>Email</b><br />{data.email}</p>
+              <p><b>Mobile</b><br />{data.mobile}</p>
+
+              {isShop && (
+                <>
+                  <p><b>Shop Keeper</b><br />{data.shop_keeper_name}</p>
+                  <p><b>Job Role</b><br />{data.job_name}</p>
+                  <p><b>Vacancies</b><br />{data.available}</p>
+                </>
+              )}
+
+              {isWorker && (
+                <>
+                  <p><b>Work Known</b><br />{data.work_known}</p>
+                  <p><b>City</b><br />{data.city}</p>
+                  <p><b>Salary</b><br />₹{data.salary}</p>
+                </>
+              )}
+
+            </div>
           )}
 
-          {isWorker && (
-            <>
-              <div className="grid grid-cols-2 gap-4">
+          {/* PENDING REQUESTS */}
 
-                <p><span className="font-semibold">Email</span><br />{data.email}</p>
+          {activeTab === "pending" && (
 
-                <p><span className="font-semibold">Mobile</span><br />{data.mobile}</p>
+            <div className="space-y-4">
 
-                <p><span className="font-semibold">Work Known</span><br />{data.work_known}</p>
+              {pendingRequests.map(req => (
 
-                <p><span className="font-semibold">Age</span><br />{data.age}</p>
+                <div key={req.id} className="border p-4 rounded-xl flex justify-between items-center">
 
-                <p><span className="font-semibold">City</span><br />{data.city}</p>
+                  <div>
+                    Request ID: {req.id}
+                  </div>
 
-                <p><span className="font-semibold">Expected Salary</span><br />₹{data.salary}</p>
+                  <div className="flex gap-3">
 
-                <p>
-                  <span className="font-semibold">Availability</span><br />
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${data.available === "Yes" || data.available === true ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
-                    {data.available}
-                  </span>
-                </p>
+                    <button
+                      onClick={() => handleAccept(req.id)}
+                      className="bg-green-500 text-white px-4 py-1 rounded"
+                    >
+                      Accept
+                    </button>
 
-              </div>
-            </>
+                    <button
+                      onClick={() => handleReject(req.id)}
+                      className="bg-red-500 text-white px-4 py-1 rounded"
+                    >
+                      Reject
+                    </button>
+
+                  </div>
+
+                </div>
+
+              ))}
+
+            </div>
           )}
 
-          {/* Edit Button */}
-          <div className="pt-6 flex justify-center">
-            <button className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-xl transition">
-              Edit Profile
-            </button>
-          </div>
+          {/* ACCEPTED */}
+
+          {activeTab === "accepted" && (
+
+            <div className="space-y-4">
+
+              {acceptedRequests.map(req => (
+
+                <div key={req.id} className="border p-4 rounded-xl">
+                  Request ID: {req.id}
+                </div>
+
+              ))}
+
+            </div>
+
+          )}
 
         </div>
 
