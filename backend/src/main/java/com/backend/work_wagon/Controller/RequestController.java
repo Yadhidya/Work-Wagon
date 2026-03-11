@@ -26,4 +26,28 @@ public class RequestController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/pending")
+    public ResponseEntity<?> getPending(HttpSession session) {
+
+        return ResponseEntity.ok(service.getPendingRequests(session));
+    }
+
+    @GetMapping("/accepted")
+    public ResponseEntity<?> getAccepted(HttpSession session) {
+
+        return ResponseEntity.ok(service.getAcceptedRequests(session));
+    }
+
+    @PutMapping("/{id}/accept")
+    public ResponseEntity<?> accept(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(service.acceptRequest(id));
+    }
+
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<?> reject(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(service.rejectRequest(id));
+    }
 }

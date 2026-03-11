@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RequestService {
 
@@ -89,6 +91,88 @@ public class RequestService {
         }
 
         request.setStatus(RequestStatus.PENDING);
+
+        return requestRepository.save(request);
+    }
+
+    public List<Request> getPendingRequests(HttpSession session) {
+
+        Integer shopId = (Integer) session.getAttribute("shop");
+        Integer workerId = (Integer) session.getAttribute("worker");
+
+        if (shopId != null) {
+            return requestRepository.findByReceiverIdAndStatus(shopId, RequestStatus.PENDING);
+        }
+
+        if (workerId != null) {
+            return requestRepository.findByReceiverIdAndStatus(workerId, RequestStatus.PENDING);
+        }
+
+        throw new RuntimeException("Not authenticated");
+    }
+
+    public List<Request> getAcceptedRequests(HttpSession session) {
+
+        Integer shopId = (Integer) session.getAttribute("shop");
+        Integer workerId = (Integer) session.getAttribute("worker");
+
+        if (shopId != null) {
+            return requestRepository.findByReceiverIdAndStatus(shopId, RequestStatus.ACCEPTED);
+        }
+
+        if (workerId != null) {
+            return requestRepository.findByReceiverIdAndStatus(workerId, RequestStatus.ACCEPTED);
+        }
+
+        throw new RuntimeException("Not authenticated");
+    }
+
+    public Request acceptRequest(Integer id) {
+
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+
+        request.setStatus(RequestStatus.ACCEPTED);
+
+        if (request.getReceiverRole() == UserRole.SHOP) {
+
+            Shop shop = shopRepo.findById(request.getReceiverId())
+                    .orElseThrow(() -> new RuntimeException("Shop not found"));
+
+            Worker worker = workerRepo.findById(request.getSenderId())
+                    .orElseThrow(() -> new RuntimeException("Worker not found"));
+
+            shop.setAvailable(shop.getAvailable() - 1);
+            worker.setAvailable("NO");
+
+            shopRepo.save(shop);
+            workerRepo.save(worker);
+
+        }
+
+        if (request.getReceiverRole() == UserRole.WORKER) {
+
+            Worker worker = workerRepo.findById(request.getReceiverId())
+                    .orElseThrow(() -> new RuntimeException("Worker not found"));
+
+            Shop shop = shopRepo.findById(request.getSenderId())
+                    .orElseThrow(() -> new RuntimeException("Shop not found"));
+
+            shop.setAvailable(shop.getAvailable() - 1);
+            worker.setAvailable("NO");
+
+            shopRepo.save(shop);
+            workerRepo.save(worker);
+        }
+
+        return requestRepository.save(request);
+    }
+    public Request rejectRequest(Integer id) {
+
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Request not found"));
+
+        request.setStatus(RequestStatus.REJECTED);
 
         return requestRepository.save(request);
     }
