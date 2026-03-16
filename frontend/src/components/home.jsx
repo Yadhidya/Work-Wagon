@@ -1,5 +1,5 @@
 import Header from "./header";
-import Tabs from "./Tabs";
+import Tabs from "./tabs";
 
 const Home = () => {
   return (
