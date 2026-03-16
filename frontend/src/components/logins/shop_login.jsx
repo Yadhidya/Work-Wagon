@@ -28,7 +28,7 @@ const ShopLogin = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/shop/login", {
+      const response = await fetch("https://work-wagon-ez8e.onrender.com/shop/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

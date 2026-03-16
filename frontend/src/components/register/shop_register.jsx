@@ -60,7 +60,7 @@ const ShopRegister = () => {
     formData.append("imageFile", imageFile);
 
     try {
-      const response = await fetch("http://localhost:8080/shop", {
+      const response = await fetch("https://work-wagon-ez8e.onrender.com/shop", {
         method: "POST",
         body: formData
       });

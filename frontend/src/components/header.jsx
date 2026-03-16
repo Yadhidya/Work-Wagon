@@ -68,14 +68,14 @@ const Header = () => {
     try {
 
       if (user?.type === "shop") {
-        await fetch("http://localhost:8080/shop/logout", {
+        await fetch("https://work-wagon-ez8e.onrender.com/shop/logout", {
           method: "POST",
           credentials: "include"
         });
       }
 
       if (user?.type === "worker") {
-        await fetch("http://localhost:8080/worker/logout", {
+        await fetch("https://work-wagon-ez8e.onrender.com/worker/logout", {
           method: "POST",
           credentials: "include"
         });

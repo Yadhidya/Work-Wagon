@@ -28,7 +28,7 @@ const WorkerLogin = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/worker/login", {
+      const response = await fetch("https://work-wagon-ez8e.onrender.com/worker/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

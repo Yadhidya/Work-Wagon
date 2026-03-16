@@ -39,7 +39,7 @@ const WorkerRegister = () => {
     formData.append("imageFile", imageFile);
 
     try {
-      const response = await fetch("http://localhost:8080/worker", {
+      const response = await fetch("https://work-wagon-ez8e.onrender.com/worker", {
         method: "POST",
         body: formData
       });

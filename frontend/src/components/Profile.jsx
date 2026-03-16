@@ -14,8 +14,8 @@ const Profile = () => {
 
     let url = "";
 
-    if (shop) url = "http://localhost:8080/shop/profile";
-    if (worker) url = "http://localhost:8080/worker/profile";
+    if (shop) url = "https://work-wagon-ez8e.onrender.com/shop/profile";
+    if (worker) url = "https://work-wagon-ez8e.onrender.com/worker/profile";
 
     if (url) {
       fetch(url, { credentials: "include" })
@@ -23,13 +23,13 @@ const Profile = () => {
         .then(data => setData(data));
     }
 
-    fetch("http://localhost:8080/requests/pending", {
+    fetch("https://work-wagon-ez8e.onrender.com/requests/pending", {
       credentials: "include"
     })
       .then(res => res.json())
       .then(data => setPendingRequests(data));
 
-    fetch("http://localhost:8080/requests/accepted", {
+    fetch("https://work-wagon-ez8e.onrender.com/requests/accepted", {
       credentials: "include"
     })
       .then(res => res.json())
@@ -39,7 +39,7 @@ const Profile = () => {
 
   const handleAccept = async (id) => {
 
-    const res = await fetch(`http://localhost:8080/requests/${id}/accept`, {
+    const res = await fetch(`https://work-wagon-ez8e.onrender.com/requests/${id}/accept`, {
       method: "PUT",
       credentials: "include"
     });
@@ -52,7 +52,7 @@ const Profile = () => {
 
   const handleReject = async (id) => {
 
-    const res = await fetch(`http://localhost:8080/requests/${id}/reject`, {
+    const res = await fetch(`https://work-wagon-ez8e.onrender.com/requests/${id}/reject`, {
       method: "PUT",
       credentials: "include"
     });

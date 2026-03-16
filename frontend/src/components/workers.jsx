@@ -9,7 +9,7 @@ const Workers = () => {
   const [isShopLoggedIn, setIsShopLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/workers")
+    fetch("https://work-wagon-ez8e.onrender.com/workers")
       .then((res) => res.json())
       .then((data) => {
         setWorkers(data);
@@ -24,7 +24,7 @@ const Workers = () => {
 
      const sendRequest = async (workerId) => {
   try {
-   const res = await fetch("http://localhost:8080/requests/send", {
+   const res = await fetch("https://work-wagon-ez8e.onrender.com/requests/send", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
