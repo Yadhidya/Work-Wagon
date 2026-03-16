@@ -1,4 +1,7 @@
+
 import { useEffect, useState } from "react";
+
+const API = "https://work-wagon-ez8e.onrender.com";
 
 const Profile = () => {
 
@@ -14,53 +17,71 @@ const Profile = () => {
 
     let url = "";
 
-    if (shop) url = "https://work-wagon-ez8e.onrender.com/shop/profile";
-    if (worker) url = "https://work-wagon-ez8e.onrender.com/worker/profile";
+    if (shop) url = `${API}/shop/profile`;
+    if (worker) url = `${API}/worker/profile`;
 
     if (url) {
       fetch(url, { credentials: "include" })
-        .then(res => res.json())
-        .then(data => setData(data));
+        .then(async (res) => {
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text);
+          }
+          return res.json();
+        })
+        .then(data => setData(data))
+        .catch(err => console.log(err.message));
     }
 
-    fetch("https://work-wagon-ez8e.onrender.com/requests/pending", {
+    fetch(`${API}/requests/pending`, {
       credentials: "include"
     })
-      .then(res => res.json())
-      .then(data => setPendingRequests(data));
+      .then(async res => {
+        if (!res.ok) return [];
+        return res.json();
+      })
+      .then(data => setPendingRequests(data))
+      .catch(() => setPendingRequests([]));
 
-    fetch("https://work-wagon-ez8e.onrender.com/requests/accepted", {
+    fetch(`${API}/requests/accepted`, {
       credentials: "include"
     })
-      .then(res => res.json())
-      .then(data => setAcceptedRequests(data));
+      .then(async res => {
+        if (!res.ok) return [];
+        return res.json();
+      })
+      .then(data => setAcceptedRequests(data))
+      .catch(() => setAcceptedRequests([]));
 
   }, []);
 
   const handleAccept = async (id) => {
 
-    const res = await fetch(`https://work-wagon-ez8e.onrender.com/requests/${id}/accept`, {
+    const res = await fetch(`${API}/requests/${id}/accept`, {
       method: "PUT",
       credentials: "include"
     });
 
     if (res.ok) {
       alert("Request accepted");
-      window.location.reload();
+      setPendingRequests(prev => prev.filter(req => req.id !== id));
+      setAcceptedRequests(prev => [...prev, { id }]);
     }
+
   };
 
   const handleReject = async (id) => {
 
-    const res = await fetch(`https://work-wagon-ez8e.onrender.com/requests/${id}/reject`, {
+    const res = await fetch(`${API}/requests/${id}/reject`, {
       method: "PUT",
       credentials: "include"
     });
 
     if (res.ok) {
       alert("Request rejected");
-      window.location.reload();
+      setPendingRequests(prev => prev.filter(req => req.id !== id));
     }
+
   };
 
   if (!data) {
@@ -82,6 +103,8 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-100 p-6">
 
       <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+
+        {/* Header */}
 
         <div className="bg-indigo-500 p-6 flex items-center gap-6">
 
@@ -171,6 +194,10 @@ const Profile = () => {
 
             <div className="space-y-4">
 
+              {pendingRequests.length === 0 && (
+                <p className="text-gray-500">No pending requests</p>
+              )}
+
               {pendingRequests.map(req => (
 
                 <div key={req.id} className="border p-4 rounded-xl flex justify-between items-center">
@@ -204,11 +231,15 @@ const Profile = () => {
             </div>
           )}
 
-          {/* ACCEPTED */}
+          {/* ACCEPTED REQUESTS */}
 
           {activeTab === "accepted" && (
 
             <div className="space-y-4">
+
+              {acceptedRequests.length === 0 && (
+                <p className="text-gray-500">No accepted requests</p>
+              )}
 
               {acceptedRequests.map(req => (
 
@@ -231,3 +262,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
