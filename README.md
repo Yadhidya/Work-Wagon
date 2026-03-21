@@ -1,100 +1,129 @@
-🚀 Work Wagon
+# 🚀 Work Wagon
 
-Work Wagon is a full-stack web application that connects Shopkeepers and Workers.
-It allows shops to post job vacancies and workers to find and request available opportunities.
+**Live Application:**
+🌐 https://work-wagon.vercel.app/
 
-🛠 Tech Stack
-🔹 Backend
+Work Wagon is a **full-stack web application** that connects **Shopkeepers and Workers**.
+It allows shops to post job vacancies and workers to discover and request available opportunities.
 
-Java
+The platform implements a **mutual request system** where both workers and shopkeepers can initiate job connections.
 
-Spring Boot
+---
 
-Spring Data JPA
+# 🛠 Tech Stack
 
-MySQL
+## 🔹 Backend
 
-BCrypt (Password Encryption)
+* **Java**
+* **Spring Boot**
+* **Spring Data JPA**
+* **PostgreSQL (Render Cloud Database)**
+* **REST APIs**
 
-HttpSession (Authentication)
+Backend Deployment:
+https://work-wagon-ez8e.onrender.com
 
-🔹 Frontend
+---
 
-React
+## 🔹 Frontend
 
-Tailwind CSS
+* **React**
+* **Tailwind CSS**
 
-Fetch API
+Frontend Deployment:
+https://work-wagon.vercel.app
 
-👥 User Roles
-🏪 Shopkeeper
+---
 
-Register and login
+# 🌍 System Architecture
 
-Post shop details
+Browser
+⬇
+React Frontend (Vercel)
+⬇
+Spring Boot Backend (Render)
+⬇
+PostgreSQL Database (Render)
 
-Add available vacancies
+---
 
-View worker profiles
+# 👥 User Roles
 
-Send job requests to workers
+## 🏪 Shopkeeper
 
-Accept or reject worker requests
+* Register and login
+* Add shop information
+* Post job vacancies
+* View worker profiles
+* Send job requests to workers
+* Accept or reject worker requests
+* Update shop profile
 
-Update profile
+---
 
-👷 Worker
+## 👷 Worker
 
-Register and login
+* Register and login
+* Set availability status
+* View shop listings
+* Send job requests to shops
+* Accept or reject shop requests
+* Update worker profile
 
-Set availability status
+---
 
-View shop listings
+# 🔐 Authentication & Security
 
-Send requests to shops
+* **Session-based authentication using HttpSession**
+* **Password encryption with BCrypt**
+* **Unique email and mobile validation**
+* **Role-based request handling**
+* **CORS configuration for deployed frontend**
 
-Accept or reject shop requests
+---
 
-Update profile
+# 📦 Core Features
 
-🔐 Authentication
+## ✅ Mutual Request System
 
-Session-based authentication using HttpSession
+Both users can initiate job interactions.
 
-Passwords encrypted using BCryptPasswordEncoder
+* Shop ➜ Worker request
+* Worker ➜ Shop request
 
-Unique email and mobile number validation
+Request states:
 
-Role-based request handling
+* **PENDING**
+* **ACCEPTED**
+* **REJECTED**
 
-📦 Core Features
-✅ Mutual Request System
+---
 
-Shop → Worker request
+## ✅ Business Logic
 
-Worker → Shop request
+When a request is **accepted**:
 
-Request status: PENDING, ACCEPTED, REJECTED
+* Shop **vacancy count decreases**
+* Worker **availability becomes false**
+* Duplicate requests are **prevented**
 
-✅ Business Logic
+---
 
-On acceptance:
+## ✅ Profile Management
 
-Shop vacancy count decreases
+Users can:
 
-Worker availability becomes false
+* View profile
+* Update personal information
+* View pending requests
+* View accepted requests
+* Accept or reject job requests
 
-Duplicate requests prevented
+---
 
-✅ Profile Management
+# 📁 Project Structure
 
-View profile
-
-Update personal details
-
-View pending and accepted requests
-
-📁 Project Structure
+```
 work_wagon/
 │
 ├── backend/
@@ -103,20 +132,72 @@ work_wagon/
 │   ├── Repository
 │   ├── Model
 │   ├── DTO
-│   └── Enum
+│   ├── Enum
+│   └── Config
 │
 └── frontend/
     ├── components
     ├── pages
     └── assets
-🗄 Database
+```
 
-MySQL database
+---
 
-JPA auto schema update
+# 🗄 Database
 
-Unique constraints on:
+**PostgreSQL (Render Cloud Database)**
 
-Email
+Managed with **Spring Data JPA**.
 
-Mobile number
+Schema generated automatically using:
+
+```
+spring.jpa.hibernate.ddl-auto=update
+```
+
+### Unique Constraints
+
+* Email
+* Mobile number
+
+---
+
+# ⚡ API Endpoints (Examples)
+
+| Method | Endpoint                | Description       |
+| ------ | ----------------------- | ----------------- |
+| POST   | `/shop/login`           | Shop login        |
+| POST   | `/worker/login`         | Worker login      |
+| GET    | `/shops`                | List all shops    |
+| GET    | `/workers`              | List all workers  |
+| POST   | `/requests/send`        | Send request      |
+| PUT    | `/requests/{id}/accept` | Accept request    |
+| PUT    | `/requests/{id}/reject` | Reject request    |
+| GET    | `/requests/pending`     | Pending requests  |
+| GET    | `/requests/accepted`    | Accepted requests |
+
+---
+
+# ⚠ Notes
+
+Render free backend instances **sleep after inactivity**.
+The first request may take **30–60 seconds to wake up**.
+
+---
+
+# 📌 Future Improvements
+
+* JWT Authentication
+* Real-time request notifications
+* Search & filtering for jobs
+* Worker skill matching
+* Admin moderation panel
+
+---
+
+# 👨‍💻 Author
+
+**Yadhidya Ulli**
+
+GitHub:
+https://github.com/Yadhidya/Work-Wagon
